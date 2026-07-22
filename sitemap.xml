@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>https://websajtizrada.online/</loc>
-    <xhtml:link rel="alternate" hreflang="sr" href="https://websajtizrada.online/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://websajtizrada.online/en/"/>
-    <xhtml:link rel="alternate" hreflang="hu" href="https://websajtizrada.online/hu/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://websajtizrada.online/"/>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url><loc>https://websajtizrada.online/izrada-sajtova.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://websajtizrada.online/web-shop.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://websajtizrada.online/google-ads.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://websajtizrada.online/facebook-instagram-reklame.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://websajtizrada.online/portfolio.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://websajtizrada.online/cene.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://websajtizrada.online/o-nama.html</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://websajtizrada.online/kontakt.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://websajtizrada.online/en/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://websajtizrada.online/hu/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url><loc>https://websajtizrada.online/</loc></url>
+<url><loc>https://websajtizrada.online/en/index.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/index.html</loc></url>
+<url><loc>https://websajtizrada.online/izrada-sajtova.html</loc></url>
+<url><loc>https://websajtizrada.online/en/web-development.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/weboldal-keszites.html</loc></url>
+<url><loc>https://websajtizrada.online/web-shop.html</loc></url>
+<url><loc>https://websajtizrada.online/en/ecommerce-websites.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/webshop-keszites.html</loc></url>
+<url><loc>https://websajtizrada.online/google-ads.html</loc></url>
+<url><loc>https://websajtizrada.online/en/google-ads.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/google-ads.html</loc></url>
+<url><loc>https://websajtizrada.online/facebook-instagram-reklame.html</loc></url>
+<url><loc>https://websajtizrada.online/en/facebook-instagram-advertising.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/facebook-instagram-hirdetes.html</loc></url>
+<url><loc>https://websajtizrada.online/portfolio.html</loc></url>
+<url><loc>https://websajtizrada.online/en/portfolio.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/portfolio.html</loc></url>
+<url><loc>https://websajtizrada.online/cene.html</loc></url>
+<url><loc>https://websajtizrada.online/en/pricing.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/arak.html</loc></url>
+<url><loc>https://websajtizrada.online/o-nama.html</loc></url>
+<url><loc>https://websajtizrada.online/en/about.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/rolunk.html</loc></url>
+<url><loc>https://websajtizrada.online/kontakt.html</loc></url>
+<url><loc>https://websajtizrada.online/en/contact.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/kapcsolat.html</loc></url>
+<url><loc>https://websajtizrada.online/politika-privatnosti.html</loc></url>
+<url><loc>https://websajtizrada.online/en/privacy-policy.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/adatvedelmi-iranyelvek.html</loc></url>
+<url><loc>https://websajtizrada.online/politika-kolacica.html</loc></url>
+<url><loc>https://websajtizrada.online/en/cookie-policy.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/cookie-szabalyzat.html</loc></url>
+<url><loc>https://websajtizrada.online/uslovi-koriscenja.html</loc></url>
+<url><loc>https://websajtizrada.online/en/terms.html</loc></url>
+<url><loc>https://websajtizrada.online/hu/felhasznalasi-feltetelek.html</loc></url>
 </urlset>

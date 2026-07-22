@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" width="200" height="40">
+  <rect x="0" y="4" width="32" height="32" rx="7" fill="#0b5cff"/>
+  <text x="16" y="27" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="18" fill="#fff">W</text>
+  <text x="42" y="26" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="16" fill="#1a1f2b">websajtizrada</text>
+  <text x="163" y="26" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="16" fill="#0b5cff">.online</text>
+</svg>
