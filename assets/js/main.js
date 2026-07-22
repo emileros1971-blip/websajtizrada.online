@@ -21,7 +21,16 @@ const SITE_CONFIG = {
 
   // --- Tracking (loaded only after consent) ---
   gaId: "G-8Q7W1SB4F5",
-  metaPixelId: "1217508533643465",
+  // Add the Google Ads destination ID (AW-XXXXXXXXX) and labels below when created.
+  googleAdsId: "",
+  googleAdsConversions: {
+    formSubmit: "",
+    phoneClick: "",
+    whatsappClick: "",
+    viberClick: "",
+  },
+  // Intentionally blank until the new Meta dataset/pixel is created.
+  metaPixelId: "",
 
   social: { facebook: "", instagram: "", linkedin: "" },
 };
@@ -156,7 +165,10 @@ function saveConsent(c) {
 }
 function applyConsent(c) {
   if (c.analytics) loadGA();
-  if (c.marketing) loadMetaPixel();
+  if (c.marketing) {
+    loadGoogleAds();
+    loadMetaPixel();
+  }
 }
 function initCookieBanner() {
   const banner = $('#cookie-banner');
@@ -191,17 +203,57 @@ function initCookieBanner() {
 }
 
 /* ---------- Analytics loaders (per consent category) ---------- */
-let _gaLoaded = false, _pxLoaded = false;
-function loadGA() {
-  if (_gaLoaded || !SITE_CONFIG.gaId) return; _gaLoaded = true;
-  const s = document.createElement('script');
-  s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + SITE_CONFIG.gaId;
-  document.head.appendChild(s);
+let _googleTagScriptLoaded = false;
+let _googleJsInitialized = false;
+let _gaLoaded = false;
+let _adsLoaded = false;
+let _pxLoaded = false;
+
+function ensureGoogleTag(primaryId) {
+  if (!primaryId) return false;
   window.dataLayer = window.dataLayer || [];
-  window.gtag = function(){ window.dataLayer.push(arguments); };
-  window.gtag('js', new Date());
+  window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+
+  if (!_googleTagScriptLoaded) {
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(primaryId);
+    document.head.appendChild(s);
+    _googleTagScriptLoaded = true;
+  }
+
+  if (!_googleJsInitialized) {
+    window.gtag('js', new Date());
+    _googleJsInitialized = true;
+  }
+  return true;
+}
+
+function loadGA() {
+  if (_gaLoaded || !SITE_CONFIG.gaId) return;
+  if (!ensureGoogleTag(SITE_CONFIG.gaId)) return;
+  _gaLoaded = true;
   window.gtag('config', SITE_CONFIG.gaId, { anonymize_ip: true });
 }
+
+function loadGoogleAds() {
+  if (_adsLoaded || !SITE_CONFIG.googleAdsId) return;
+  if (!ensureGoogleTag(SITE_CONFIG.googleAdsId)) return;
+  _adsLoaded = true;
+  window.gtag('config', SITE_CONFIG.googleAdsId);
+}
+
+function sendGoogleAdsConversion(label, params) {
+  const consent = getConsent();
+  if (!consent?.marketing || !SITE_CONFIG.googleAdsId || !label) return;
+  loadGoogleAds();
+  if (!window.gtag) return;
+  window.gtag('event', 'conversion', {
+    send_to: SITE_CONFIG.googleAdsId + '/' + label,
+    ...(params || {}),
+  });
+}
+
 function loadMetaPixel() {
   if (_pxLoaded || !SITE_CONFIG.metaPixelId) return; _pxLoaded = true;
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
@@ -225,8 +277,15 @@ function initSmoothAnchors() {
 
 /* ---------- Event tracking ---------- */
 function trackEvent(name, params) {
-  if (window.gtag) window.gtag('event', name, params || {});
-  if (window.fbq) window.fbq('trackCustom', name, params || {});
+  const eventParams = params || {};
+  if (window.gtag) window.gtag('event', name, eventParams);
+  if (window.fbq) window.fbq('trackCustom', name, eventParams);
+
+  const labels = SITE_CONFIG.googleAdsConversions || {};
+  if (name === 'form_submit') sendGoogleAdsConversion(labels.formSubmit, eventParams);
+  else if (name === 'click_phone') sendGoogleAdsConversion(labels.phoneClick, eventParams);
+  else if (name === 'click_whatsapp') sendGoogleAdsConversion(labels.whatsappClick, eventParams);
+  else if (name === 'click_viber') sendGoogleAdsConversion(labels.viberClick, eventParams);
 }
 function initClickTracking() {
   document.addEventListener('click', (e) => {
