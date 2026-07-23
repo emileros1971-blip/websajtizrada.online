@@ -256,7 +256,7 @@ function sendGoogleAdsConversion(label, params) {
 
 function loadMetaPixel() {
   if (_pxLoaded || !SITE_CONFIG.metaPixelId) return; _pxLoaded = true;
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)n=f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   window.fbq('init', SITE_CONFIG.metaPixelId);
   window.fbq('track', 'PageView');
 }
@@ -333,8 +333,7 @@ function initCrossBrandLinks() {
     sr: {
       brand: 'WebsajtIzrada.online je specijalizovana usluga firme ',
       company: 'Silverado Video Emil Eres PR',
-      local: 'Izrada sajtova Subotica',
-      hero: 'Tražite lokalnog partnera? Pogledajte našu ponudu za izradu sajtova u Subotici.'
+      local: 'Izrada sajtova Subotica'
     },
     en: {
       brand: 'WebsajtIzrada.online is a specialised service of ',
