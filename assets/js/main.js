@@ -256,7 +256,7 @@ function sendGoogleAdsConversion(label, params) {
 
 function loadMetaPixel() {
   if (_pxLoaded || !SITE_CONFIG.metaPixelId) return; _pxLoaded = true;
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)n=f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   window.fbq('init', SITE_CONFIG.metaPixelId);
   window.fbq('track', 'PageView');
 }
@@ -323,3 +323,90 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothAnchors();
   initReveal();
 });
+
+/* ---------- Cross-brand relationship + local SEO links ---------- */
+function initCrossBrandLinks() {
+  const path = window.location.pathname;
+  const language = path.startsWith('/en/') ? 'en' : path.startsWith('/hu/') ? 'hu' : 'sr';
+  const rootPrefix = language === 'sr' ? '' : '../';
+  const copy = {
+    sr: {
+      brand: 'WebsajtIzrada.online je specijalizovana usluga firme ',
+      company: 'Silverado Video Emil Eres PR',
+      local: 'Izrada sajtova Subotica',
+      hero: 'Tražite lokalnog partnera? Pogledajte našu ponudu za izradu sajtova u Subotici.'
+    },
+    en: {
+      brand: 'WebsajtIzrada.online is a specialised service of ',
+      company: 'Silverado Video Emil Eres PR',
+      local: 'Web design in Subotica'
+    },
+    hu: {
+      brand: 'A WebsajtIzrada.online a következő vállalkozás szakosodott szolgáltatása: ',
+      company: 'Silverado Video Emil Eres PR',
+      local: 'Weboldal-készítés Szabadkán'
+    }
+  }[language];
+
+  const footerBrand = document.querySelector('.footer-brand');
+  if (footerBrand && !footerBrand.querySelector('[data-cross-brand]')) {
+    const paragraph = document.createElement('p');
+    paragraph.setAttribute('data-cross-brand', 'true');
+    paragraph.append(document.createTextNode(copy.brand));
+    const companyLink = document.createElement('a');
+    companyLink.href = 'https://silverado.pro/';
+    companyLink.target = '_blank';
+    companyLink.rel = 'noopener';
+    companyLink.textContent = copy.company;
+    paragraph.append(companyLink, document.createTextNode('.'));
+    footerBrand.appendChild(paragraph);
+  }
+
+  const serviceLists = document.querySelectorAll('.site-footer .footer-grid ul');
+  const serviceList = serviceLists.length ? serviceLists[0] : null;
+  if (serviceList && !serviceList.querySelector('[data-local-seo-link]')) {
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = rootPrefix + 'izrada-sajtova-subotica.html';
+    link.textContent = copy.local;
+    link.setAttribute('data-local-seo-link', 'true');
+    item.appendChild(link);
+    serviceList.appendChild(item);
+  }
+
+  const isSerbianHome = language === 'sr' && (path === '/' || path.endsWith('/index.html'));
+  const heroMeta = document.querySelector('.hero-meta');
+  if (isSerbianHome && heroMeta && !document.querySelector('[data-local-hero-link]')) {
+    const localLine = document.createElement('p');
+    localLine.className = 'hero-meta';
+    localLine.setAttribute('data-local-hero-link', 'true');
+    localLine.append(document.createTextNode('Tražite lokalnog partnera? '));
+    const localLink = document.createElement('a');
+    localLink.href = 'izrada-sajtova-subotica.html';
+    localLink.innerHTML = '<strong>Izrada sajtova u Subotici</strong>';
+    localLine.appendChild(localLink);
+    heroMeta.insertAdjacentElement('afterend', localLine);
+  }
+
+  if (!document.querySelector('script[data-cross-brand-schema]')) {
+    const schema = document.createElement('script');
+    schema.type = 'application/ld+json';
+    schema.setAttribute('data-cross-brand-schema', 'true');
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      '@id': 'https://websajtizrada.online/#org-relationship',
+      name: 'websajtizrada.online',
+      url: 'https://websajtizrada.online/',
+      parentOrganization: {
+        '@type': 'Organization',
+        name: 'Silverado Video Emil Eres PR',
+        url: 'https://silverado.pro/'
+      },
+      sameAs: ['https://silverado.pro/']
+    });
+    document.head.appendChild(schema);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initCrossBrandLinks);
