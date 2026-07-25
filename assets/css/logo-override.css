@@ -1,0 +1,8 @@
+/* Shared branding override */
+.logo-mark {
+  color: transparent;
+  font-size: 0;
+  background: url("../../favicon.png") center / cover no-repeat;
+  box-shadow: none;
+  overflow: hidden;
+}
