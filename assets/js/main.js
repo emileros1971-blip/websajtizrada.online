@@ -17,7 +17,7 @@ const SITE_CONFIG = {
   hours: "Pon–Pet 09:00–18:00",
 
   // --- Web3Forms ---
-  web3formsKey: "57dc636c-b5e8-49d8-b69e-4d4563c2ccbb",
+  web3formsKey: "f691abcd-3333-49c6-8553-e1524b5e2140",
 
   // --- Tracking (loaded only after consent) ---
   gaId: "G-8Q7W1SB4F5",
