@@ -6,3 +6,29 @@
   box-shadow: none;
   overflow: hidden;
 }
+
+/* Use the current image logo consistently on every desktop and mobile header. */
+.site-header .logo,
+.mobile-menu-top .logo {
+  display: block;
+  width: min(265px, 42vw);
+  height: 46px;
+  flex: 0 0 auto;
+  background: url("../../logo.png") center / contain no-repeat;
+}
+
+.site-header .logo > *,
+.mobile-menu-top .logo > * {
+  display: none !important;
+}
+
+.mobile-menu-top .logo {
+  width: min(230px, 70vw);
+  height: 40px;
+}
+
+.site-footer .logo-mark {
+  width: 44px;
+  height: 44px;
+  background-image: url("../../apple-touch-icon.png");
+}
