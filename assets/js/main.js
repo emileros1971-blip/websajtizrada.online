@@ -93,7 +93,7 @@ function initContactForm() {
     status.textContent = '';
 
     // Honeypot check
-    if (form.querySelector('input[name="botcheck"]').value) return;
+    if (form.querySelector('input[name="botcheck"]').checked) return;
 
     // Simple client-side validation
     let ok = true;
