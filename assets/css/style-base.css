@@ -371,7 +371,8 @@ section{ padding: var(--section-py) 0; }
 .pricing-headline strong{ color: var(--c-primary); }
 .pricing-note{ color: var(--c-text-muted); margin-bottom: var(--sp-6); line-height: var(--lh-relaxed); }
 .pricing-list{ text-align:left; list-style:none; padding:0; margin: var(--sp-6) 0; display:grid; gap: var(--sp-2); }
-.pricing-list li::before{ content:"✓ "; color: var(--c-success); font-weight: 700; }
+.pricing-list li{ padding-left:0; }
+.pricing-list li::before{ content:none; }
 
 /* ---------- Why us ---------- */
 .why-grid{ display:grid; gap: var(--sp-6); grid-template-columns: 1fr; }
@@ -556,8 +557,8 @@ form.contact-form{
 .offer-callout .offer-price{ font-size: clamp(2rem, 5vw, 3.5rem); font-weight:800; letter-spacing:-.02em; margin: var(--sp-4) 0; }
 .offer-callout .offer-price small{ font-size: .4em; font-weight:600; opacity:.8; display:block; }
 .offer-callout .offer-list{ list-style:none; padding:0; margin: var(--sp-6) auto; display:grid; gap: var(--sp-2); max-width: 560px; text-align:left; }
-.offer-callout .offer-list li{ padding-left: 1.75rem; position:relative; font-size: var(--fs-sm); }
-.offer-callout .offer-list li::before{ content:"✓"; position:absolute; left:0; top:0; width:20px; height:20px; background: rgba(255,255,255,.2); border-radius:50%; text-align:center; font-size:.75rem; line-height:20px; font-weight:700; }
+.offer-callout .offer-list li{ padding-left:0; position:relative; font-size: var(--fs-sm); }
+.offer-callout .offer-list li::before{ content:none; }
 .offer-callout .btn-primary{ background:#fff; color: var(--c-primary); }
 .offer-callout .btn-primary:hover{ background: var(--c-bg-alt); color: var(--c-primary-dark); }
 .offer-callout .btn-secondary{ background: transparent; color:#fff; border-color: rgba(255,255,255,.5); }
