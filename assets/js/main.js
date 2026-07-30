@@ -20,7 +20,7 @@ const SITE_CONFIG = {
   web3formsKey: "f691abcd-3333-49c6-8553-e1524b5e2140",
 
   // --- Tracking (loaded only after consent) ---
-  gaId: "G-8Q7W1SB4F5",
+  gaId: "G-XZM28DBJ6B",
   // Add the Google Ads destination ID (AW-XXXXXXXXX) and labels below when created.
   googleAdsId: "",
   googleAdsConversions: {
