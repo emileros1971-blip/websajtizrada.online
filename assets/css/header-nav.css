@@ -1,27 +1,27 @@
-/* Compact desktop navigation for the Serbian site.
+/* Compact desktop navigation for Serbian, English and Hungarian.
    Keeps the existing visual identity and leaves the mobile menu unchanged. */
 
 @media (min-width: 900px) {
-  html[lang^="sr"] .header-inner {
+  .header-inner {
     gap: clamp(.75rem, 1.5vw, 1.25rem);
   }
 
-  html[lang^="sr"] .main-nav {
+  .main-nav {
     margin-left: auto;
   }
 
-  html[lang^="sr"] .main-nav > ul {
+  .main-nav > ul {
     position: relative;
     gap: .25rem;
     overflow: visible;
   }
 
-  html[lang^="sr"] .main-nav > ul > li {
+  .main-nav > ul > li {
     position: relative;
     flex: 0 0 auto;
   }
 
-  html[lang^="sr"] .main-nav > ul > li > a {
+  .main-nav > ul > li > a {
     display: inline-flex;
     align-items: center;
     min-height: 42px;
@@ -31,24 +31,35 @@
     transition: color var(--dur), background var(--dur), transform var(--dur), opacity var(--dur);
   }
 
-  html[lang^="sr"] .main-nav > ul > li > a:hover,
-  html[lang^="sr"] .main-nav > ul > li > a:focus-visible {
+  .main-nav > ul > li > a:hover,
+  .main-nav > ul > li > a:focus-visible {
     background: var(--c-primary-soft);
   }
 
-  /* The first service link becomes the visible Usluge trigger. */
-  html[lang^="sr"] .main-nav > ul > li:nth-child(2) > a {
+  /* The first service link becomes the visible services trigger. */
+  .main-nav > ul > li:nth-child(2) > a {
     font-size: 0;
     gap: .38rem;
   }
 
   html[lang^="sr"] .main-nav > ul > li:nth-child(2) > a::before {
     content: "Usluge";
+  }
+
+  html[lang^="en"] .main-nav > ul > li:nth-child(2) > a::before {
+    content: "Services";
+  }
+
+  html[lang^="hu"] .main-nav > ul > li:nth-child(2) > a::before {
+    content: "Szolgáltatások";
+  }
+
+  .main-nav > ul > li:nth-child(2) > a::before {
     font-size: var(--fs-sm);
     color: var(--c-text);
   }
 
-  html[lang^="sr"] .main-nav > ul > li:nth-child(2) > a::after {
+  .main-nav > ul > li:nth-child(2) > a::after {
     content: "";
     width: .44rem;
     height: .44rem;
@@ -60,12 +71,16 @@
   }
 
   html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):hover) > li:nth-child(2) > a::after,
-  html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):focus-within) > li:nth-child(2) > a::after {
+  html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):focus-within) > li:nth-child(2) > a::after,
+  html[lang^="en"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):hover) > li:nth-child(2) > a::after,
+  html[lang^="en"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):focus-within) > li:nth-child(2) > a::after,
+  html[lang^="hu"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):hover) > li:nth-child(2) > a::after,
+  html[lang^="hu"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):focus-within) > li:nth-child(2) > a::after {
     transform: rotate(225deg) translate(-1px, -1px);
   }
 
   /* Invisible bridge prevents the dropdown closing while the pointer moves down. */
-  html[lang^="sr"] .main-nav > ul > li:nth-child(2)::after {
+  .main-nav > ul > li:nth-child(2)::after {
     content: "";
     position: absolute;
     top: 100%;
@@ -74,10 +89,11 @@
     height: 1rem;
   }
 
-  /* Service links 3–6 form the dropdown. */
-  html[lang^="sr"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+6) {
+  /* Service links form the dropdown. Serbian has one extra local SEO page. */
+  html[lang^="sr"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+6),
+  html[lang^="en"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5),
+  html[lang^="hu"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) {
     position: absolute;
-    left: 4.7rem;
     z-index: 30;
     opacity: 0;
     visibility: hidden;
@@ -86,12 +102,18 @@
     transition: opacity var(--dur), visibility var(--dur), transform var(--dur) var(--ease);
   }
 
-  html[lang^="sr"] .main-nav > ul > li:nth-child(3) { top: calc(100% + .75rem); }
-  html[lang^="sr"] .main-nav > ul > li:nth-child(4) { top: calc(100% + 3.43rem); }
-  html[lang^="sr"] .main-nav > ul > li:nth-child(5) { top: calc(100% + 6.11rem); }
+  html[lang^="sr"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+6) { left: 4.7rem; }
+  html[lang^="en"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) { left: 3.45rem; }
+  html[lang^="hu"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) { left: 4.55rem; }
+
+  .main-nav > ul > li:nth-child(3) { top: calc(100% + .75rem); }
+  .main-nav > ul > li:nth-child(4) { top: calc(100% + 3.43rem); }
+  .main-nav > ul > li:nth-child(5) { top: calc(100% + 6.11rem); }
   html[lang^="sr"] .main-nav > ul > li:nth-child(6) { top: calc(100% + 8.79rem); }
 
-  html[lang^="sr"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+6) > a {
+  html[lang^="sr"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+6) > a,
+  html[lang^="en"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) > a,
+  html[lang^="hu"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) > a {
     width: 17.5rem;
     min-height: 44px;
     padding: .7rem .9rem;
@@ -103,22 +125,32 @@
     color: var(--c-text);
   }
 
-  html[lang^="sr"] .main-nav > ul > li:nth-child(3) > a {
+  .main-nav > ul > li:nth-child(3) > a {
     border-radius: var(--radius) var(--radius) 0 0;
   }
 
   html[lang^="sr"] .main-nav > ul > li:nth-child(4) > a,
   html[lang^="sr"] .main-nav > ul > li:nth-child(5) > a,
-  html[lang^="sr"] .main-nav > ul > li:nth-child(6) > a {
+  html[lang^="sr"] .main-nav > ul > li:nth-child(6) > a,
+  html[lang^="en"] .main-nav > ul > li:nth-child(4) > a,
+  html[lang^="en"] .main-nav > ul > li:nth-child(5) > a,
+  html[lang^="hu"] .main-nav > ul > li:nth-child(4) > a,
+  html[lang^="hu"] .main-nav > ul > li:nth-child(5) > a {
     border-top: 0;
   }
 
-  html[lang^="sr"] .main-nav > ul > li:nth-child(6) > a {
+  html[lang^="sr"] .main-nav > ul > li:nth-child(6) > a,
+  html[lang^="en"] .main-nav > ul > li:nth-child(5) > a,
+  html[lang^="hu"] .main-nav > ul > li:nth-child(5) > a {
     border-radius: 0 0 var(--radius) var(--radius);
   }
 
   html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):hover) > li:nth-child(n+3):nth-child(-n+6),
-  html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):focus-within) > li:nth-child(n+3):nth-child(-n+6) {
+  html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):focus-within) > li:nth-child(n+3):nth-child(-n+6),
+  html[lang^="en"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):hover) > li:nth-child(n+3):nth-child(-n+5),
+  html[lang^="en"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):focus-within) > li:nth-child(n+3):nth-child(-n+5),
+  html[lang^="hu"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):hover) > li:nth-child(n+3):nth-child(-n+5),
+  html[lang^="hu"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):focus-within) > li:nth-child(n+3):nth-child(-n+5) {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -126,22 +158,22 @@
   }
 
   /* Keep only one clear contact CTA in the desktop header. */
-  html[lang^="sr"] .header-phone {
+  .header-phone {
     display: none;
   }
 
-  html[lang^="sr"] .header-actions {
+  .header-actions {
     gap: .55rem;
   }
 
-  html[lang^="sr"] .header-cta {
+  .header-cta {
     min-height: 42px;
     padding: .68rem 1rem;
     white-space: nowrap;
   }
 
-  /* Compact language selector: SR with EN/HU in a dropdown. */
-  html[lang^="sr"] .header-actions > .lang-switch {
+  /* Compact current-language selector with the other languages below it. */
+  .header-actions > .lang-switch {
     position: relative;
     display: block;
     width: 3.65rem;
@@ -150,7 +182,7 @@
     overflow: visible;
   }
 
-  html[lang^="sr"] .header-actions > .lang-switch > a {
+  .header-actions > .lang-switch > a {
     width: 100%;
     min-height: 30px;
     display: flex;
@@ -160,7 +192,7 @@
     white-space: nowrap;
   }
 
-  html[lang^="sr"] .header-actions > .lang-switch > a[aria-current="true"]::after {
+  .header-actions > .lang-switch > a[aria-current="true"]::after {
     content: "";
     width: .35rem;
     height: .35rem;
@@ -169,7 +201,7 @@
     transform: rotate(45deg) translateY(-1px);
   }
 
-  html[lang^="sr"] .header-actions > .lang-switch > a:not([aria-current="true"]) {
+  .header-actions > .lang-switch > a:not([aria-current="true"]) {
     position: absolute;
     left: 0;
     z-index: 35;
@@ -185,47 +217,45 @@
     transition: opacity var(--dur), visibility var(--dur), transform var(--dur) var(--ease), background var(--dur);
   }
 
-  html[lang^="sr"] .header-actions > .lang-switch > a:nth-child(2) {
+  html[lang^="sr"] .header-actions > .lang-switch > a:nth-child(2),
+  html[lang^="en"] .header-actions > .lang-switch > a:nth-child(1),
+  html[lang^="hu"] .header-actions > .lang-switch > a:nth-child(1) {
     top: calc(100% + 4px);
   }
 
-  html[lang^="sr"] .header-actions > .lang-switch > a:nth-child(3) {
+  html[lang^="sr"] .header-actions > .lang-switch > a:nth-child(3),
+  html[lang^="en"] .header-actions > .lang-switch > a:nth-child(3),
+  html[lang^="hu"] .header-actions > .lang-switch > a:nth-child(2) {
     top: calc(100% + 40px);
   }
 
-  html[lang^="sr"] .header-actions > .lang-switch:hover > a:not([aria-current="true"]),
-  html[lang^="sr"] .header-actions > .lang-switch:focus-within > a:not([aria-current="true"]) {
+  .header-actions > .lang-switch:hover > a:not([aria-current="true"]),
+  .header-actions > .lang-switch:focus-within > a:not([aria-current="true"]) {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
   }
 
-  html[lang^="sr"] .header-actions > .lang-switch > a:not([aria-current="true"]):hover {
+  .header-actions > .lang-switch > a:not([aria-current="true"]):hover {
     background: var(--c-primary-soft);
     color: var(--c-primary);
   }
 }
 
 @media (min-width: 900px) and (max-width: 1080px) {
-  html[lang^="sr"] .site-logo-image {
+  .site-logo-image {
     height: 40px;
     max-width: 220px;
   }
 
-  html[lang^="sr"] .main-nav > ul > li > a {
+  .main-nav > ul > li > a {
     padding-left: .46rem;
     padding-right: .46rem;
     font-size: var(--fs-xs);
   }
 
-  html[lang^="sr"] .main-nav > ul > li:nth-child(2) > a::before {
-    font-size: var(--fs-xs);
-  }
-
-  html[lang^="sr"] .header-cta {
-    padding-left: .82rem;
-    padding-right: .82rem;
+  .main-nav > ul > li:nth-child(2) > a::before {
     font-size: var(--fs-xs);
   }
 }
