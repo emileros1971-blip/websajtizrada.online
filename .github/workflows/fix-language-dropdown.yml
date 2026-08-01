@@ -1,0 +1,50 @@
+name: Fix language dropdown selection
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fix-language-dropdown.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-dropdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Add a continuous hover corridor to the language selector
+        shell: python
+        run: |
+          from pathlib import Path
+
+          css_path = Path("assets/css/header-nav.css")
+          css = css_path.read_text(encoding="utf-8")
+
+          marker = "  .header-actions > .lang-switch > a {\n"
+          bridge = '''  /* Keep the selector open while the pointer moves from the current language\n     to either dropdown option, including the small spaces between items. */\n  .header-actions > .lang-switch::before {\n    content: "";\n    position: absolute;\n    top: 100%;\n    left: 0;\n    width: 100%;\n    height: 78px;\n    z-index: 34;\n    pointer-events: none;\n  }\n\n  .header-actions > .lang-switch:hover::before,\n  .header-actions > .lang-switch:focus-within::before {\n    pointer-events: auto;\n  }\n\n'''
+
+          if "continuous hover corridor" not in css:
+              if marker not in css:
+                  raise SystemExit("Could not find the language-selector insertion point")
+              css = css.replace(marker, bridge + marker, 1)
+              css_path.write_text(css, encoding="utf-8")
+
+          workflow_path = Path(".github/workflows/fix-language-dropdown.yml")
+          if workflow_path.exists():
+              workflow_path.unlink()
+
+      - name: Commit the dropdown fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/css/header-nav.css .github/workflows/fix-language-dropdown.yml
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Keep language dropdown open while selecting"
+            git push
+          fi
