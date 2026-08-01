@@ -1,0 +1,8 @@
+/* Replace only the Opel Delovi Kosta portfolio preview image. */
+a[href*="opeldelovikosta.online"] .portfolio-img {
+  background: #111820 url("https://raw.githubusercontent.com/emileros1971-blip/opeldelovikosta.online/main/file_0000000035f881f4868e1a6f05464697.png") center center / cover no-repeat;
+}
+
+a[href*="opeldelovikosta.online"] .portfolio-img img {
+  opacity: 0;
+}
