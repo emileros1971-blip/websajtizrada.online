@@ -182,6 +182,24 @@
     overflow: visible;
   }
 
+  /* Keep the selector open while the pointer moves from the current language
+     to either dropdown option, including the small spaces between items. */
+  .header-actions > .lang-switch::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 78px;
+    z-index: 34;
+    pointer-events: none;
+  }
+
+  .header-actions > .lang-switch:hover::before,
+  .header-actions > .lang-switch:focus-within::before {
+    pointer-events: auto;
+  }
+
   .header-actions > .lang-switch > a {
     width: 100%;
     min-height: 30px;
