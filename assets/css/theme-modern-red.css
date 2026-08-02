@@ -1,5 +1,6 @@
 /*
-  Modern red, white and charcoal palette for websajtizrada.online.
+  Exact PMS 185 C inspired palette for websajtizrada.online.
+  Primary brand colour: HEX #E5243B / RGB 229, 36, 59.
   Colour and surface overrides only. Layout, content, links, spacing and
   functionality remain controlled by the existing shared styles.
 */
@@ -13,10 +14,11 @@
   --c-text:          #17191f;
   --c-text-muted:    #60636b;
   --c-text-soft:     #8a8d94;
-  --c-primary:       #a71726;
-  --c-primary-dark:  #86101d;
-  --c-primary-soft:  #f8e8ea;
-  --c-accent:        #c11b30;
+  --c-primary:       #E5243B;
+  --c-primary-dark:  #E5243B;
+  --c-primary-soft:  rgba(229, 36, 59, .10);
+  --c-accent:        #E5243B;
+  --c-error:         #E5243B;
   --c-success:       #237a4b;
 
   --shadow-sm: 0 1px 2px rgba(23, 25, 31, .06);
@@ -25,8 +27,12 @@
 }
 
 ::selection {
-  background: #f2cfd4;
+  background: rgba(229, 36, 59, .22);
   color: #17191f;
+}
+
+html {
+  accent-color: var(--c-primary);
 }
 
 body {
@@ -35,7 +41,7 @@ body {
 
 .site-header {
   background: rgba(255, 255, 255, .94);
-  border-bottom-color: rgba(167, 23, 38, .12);
+  border-bottom-color: rgba(229, 36, 59, .14);
   backdrop-filter: saturate(125%) blur(12px);
 }
 
@@ -48,9 +54,9 @@ body {
   overflow: hidden;
   color: var(--c-text);
   background:
-    radial-gradient(circle at 88% 15%, rgba(167, 23, 38, .08) 0 12%, transparent 12.5%),
-    radial-gradient(circle at 6% 92%, rgba(167, 23, 38, .045) 0 17%, transparent 17.5%),
-    linear-gradient(135deg, #ffffff 0%, #f8f8f7 64%, #f4eeee 100%);
+    radial-gradient(circle at 88% 15%, rgba(229, 36, 59, .09) 0 12%, transparent 12.5%),
+    radial-gradient(circle at 6% 92%, rgba(229, 36, 59, .05) 0 17%, transparent 17.5%),
+    linear-gradient(135deg, #ffffff 0%, #f8f8f7 64%, rgba(229, 36, 59, .055) 100%);
   border-bottom: 1px solid var(--c-border);
 }
 
@@ -72,7 +78,7 @@ body {
 
 .hero-eyebrow {
   background: var(--c-primary-soft);
-  border-color: rgba(167, 23, 38, .12);
+  border-color: rgba(229, 36, 59, .18);
   color: var(--c-primary);
   box-shadow: none;
 }
@@ -91,13 +97,14 @@ body {
   background: var(--c-primary);
   border-color: var(--c-primary);
   color: #ffffff;
-  box-shadow: 0 10px 24px rgba(167, 23, 38, .18);
+  box-shadow: 0 10px 24px rgba(229, 36, 59, .22);
 }
 
 .hero .btn-primary:hover {
-  background: var(--c-primary-dark);
-  border-color: var(--c-primary-dark);
+  background: var(--c-primary);
+  border-color: var(--c-primary);
   color: #ffffff;
+  box-shadow: 0 14px 30px rgba(229, 36, 59, .30);
 }
 
 .hero .btn-secondary {
@@ -142,7 +149,7 @@ form.contact-form,
 .service-card:hover,
 .portfolio-card:hover,
 .industry-item:hover {
-  border-color: rgba(167, 23, 38, .42);
+  border-color: rgba(229, 36, 59, .46);
 }
 
 .service-icon,
@@ -151,46 +158,46 @@ form.contact-form,
 }
 
 .overview li::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23a71726'%3E%3Cpath d='M8.5 13.6l-3.1-3.1L4 12l4.5 4.5L17 8l-1.4-1.4z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23E5243B'%3E%3Cpath d='M8.5 13.6l-3.1-3.1L4 12l4.5 4.5L17 8l-1.4-1.4z'/%3E%3C/svg%3E");
 }
 
 .offer-callout,
 .final-cta {
   background:
-    radial-gradient(circle at 92% 12%, rgba(255, 255, 255, .11) 0 13%, transparent 13.5%),
-    linear-gradient(135deg, #9f1322 0%, #b7192b 55%, #86101d 100%);
+    radial-gradient(circle at 92% 12%, rgba(255, 255, 255, .13) 0 13%, transparent 13.5%),
+    #E5243B;
 }
 
 .offer-callout .btn-primary,
 .final-cta .btn-primary {
   background: #ffffff;
   border-color: #ffffff;
-  color: var(--c-primary-dark);
+  color: var(--c-primary);
 }
 
 .offer-callout .btn-primary:hover,
 .final-cta .btn-primary:hover {
   background: #f8f8f7;
   border-color: #f8f8f7;
-  color: #6f0c17;
+  color: var(--c-primary);
 }
 
 .offer-callout .btn-secondary,
 .final-cta .btn-secondary {
   background: transparent;
-  border-color: rgba(255, 255, 255, .68);
+  border-color: rgba(255, 255, 255, .72);
   color: #ffffff;
 }
 
 .offer-callout .btn-secondary:hover,
 .final-cta .btn-secondary:hover {
-  background: rgba(255, 255, 255, .09);
+  background: rgba(255, 255, 255, .11);
   border-color: #ffffff;
   color: #ffffff;
 }
 
 .page-hero {
-  background: linear-gradient(135deg, #ffffff 0%, #f6eeee 100%);
+  background: linear-gradient(135deg, #ffffff 0%, rgba(229, 36, 59, .07) 100%);
   border-bottom-color: var(--c-border);
 }
 
