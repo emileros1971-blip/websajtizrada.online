@@ -7,14 +7,14 @@
   overflow: hidden;
 }
 
-/* Use the current image logo consistently on every desktop and mobile header. */
+/* Use the supplied logo consistently on every desktop and mobile header. */
 .site-header .logo,
 .mobile-menu-top .logo {
   display: block;
-  width: min(265px, 42vw);
-  height: 46px;
+  width: 112px;
+  height: 67px;
   flex: 0 0 auto;
-  background: url("../../logo.png") center / contain no-repeat;
+  background: url("../../e2092230-0875-4b43-b850-ea7344fad76f.png") left center / contain no-repeat;
 }
 
 .site-header .logo > *,
@@ -23,8 +23,8 @@
 }
 
 .mobile-menu-top .logo {
-  width: min(230px, 70vw);
-  height: 40px;
+  width: 100px;
+  height: 60px;
 }
 
 .site-footer .logo-mark {

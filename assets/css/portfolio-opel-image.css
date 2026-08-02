@@ -1,8 +1,23 @@
-/* Replace only the Opel Delovi Kosta portfolio preview image. */
+/* Portfolio preview image corrections shared by every language. */
 a[href*="opeldelovikosta.online"] .portfolio-img {
   background: #111820 url("https://raw.githubusercontent.com/emileros1971-blip/opeldelovikosta.online/main/file_0000000035f881f4868e1a6f05464697.png") center center / cover no-repeat;
 }
 
 a[href*="opeldelovikosta.online"] .portfolio-img img {
   opacity: 0;
+}
+
+a[href*="mincaairsystem.online"] .portfolio-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+a[href*="mincaairsystem.online"] .portfolio-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #ffffff;
 }
