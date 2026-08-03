@@ -1,0 +1,58 @@
+name: Fix social sharing logo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-social-logo.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-social-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update logo references and Open Graph metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          new_logo = 'e2092230-0875-4b43-b850-ea7344fad76f.png'
+          image_meta = (
+              '<meta property="og:image:width" content="1635">\n'
+              '<meta property="og:image:height" content="962">\n'
+              '<meta property="og:image:type" content="image/png">'
+          )
+
+          changed = []
+          for path in Path('.').rglob('*.html'):
+              text = path.read_text(encoding='utf-8')
+              updated = text.replace('logo.png', new_logo)
+
+              marker = f'<meta property="og:image" content="https://websajtizrada.online/{new_logo}">'
+              if marker in updated and 'property="og:image:width"' not in updated:
+                  updated = updated.replace(marker, marker + '\n' + image_meta, 1)
+
+              if updated != text:
+                  path.write_text(updated, encoding='utf-8')
+                  changed.append(str(path))
+
+          workflow = Path('.github/workflows/fix-social-logo.yml')
+          if workflow.exists():
+              workflow.unlink()
+
+          print('Updated files:')
+          for item in changed:
+              print(item)
+          PY
+
+      - name: Commit the correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Use correct logo in link previews [skip ci]"
+          git push
