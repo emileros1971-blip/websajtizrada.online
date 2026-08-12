@@ -43,8 +43,36 @@ main,
 .contact-grid > *,
 .footer-grid > *,
 .services-grid > *,
-.portfolio-grid > * {
+.portfolio-grid > *,
+.trust-grid > *,
+.process-grid > *,
+.why-grid > *,
+.industries-grid > *,
+.form-grid > *,
+.industry-item > * {
   min-width: 0;
+}
+
+/* Long translated labels must wrap inside their own card instead of widening the grid. */
+.industry-item,
+.service-card,
+.portfolio-card,
+.process-step,
+.why-item,
+.trust-item {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.industry-item h4,
+.industry-item p,
+.service-card h3,
+.service-card p,
+.why-item h3,
+.why-item p {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 /* Keep quick-contact buttons fully visible, including devices with safe areas. */
@@ -114,7 +142,11 @@ main,
   .contact-grid,
   .footer-grid,
   .services-grid,
-  .portfolio-grid {
+  .portfolio-grid,
+  .trust-grid,
+  .process-grid,
+  .why-grid,
+  .industries-grid {
     width: 100%;
     max-width: 100%;
   }
@@ -129,6 +161,27 @@ main,
     right: calc(14px + env(safe-area-inset-right, 0px));
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     z-index: calc(var(--z-header) + 1);
+  }
+}
+
+/* On phones the information/industry cards use one full-width column.
+   This is especially important in Hungarian where labels are longer. */
+@media (max-width: 699px) {
+  .industries-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-4);
+  }
+
+  .industry-item {
+    width: 100%;
+    padding: var(--sp-5);
+  }
+}
+
+/* If a small tablet uses two columns, make both tracks shrinkable. */
+@media (min-width: 700px) and (max-width: 767px) {
+  .industries-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
