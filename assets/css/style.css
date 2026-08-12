@@ -3,3 +3,169 @@
 @import url("./header-nav.css?v=20260730-2");
 @import url("./theme-modern-red.css?v=20260802-2");
 @import url("./portfolio-opel-image.css?v=20260802-1");
+
+/* ============================================================
+   Mobile stability overrides — 2026-08-12
+   Shared by Serbian, English and Hungarian versions.
+   Prevents horizontal layout drift and keeps floating contact
+   buttons inside the visible mobile viewport.
+   ============================================================ */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+}
+
+body {
+  overflow-wrap: break-word;
+}
+
+main,
+.site-header,
+.site-footer {
+  width: 100%;
+  max-width: 100%;
+}
+
+.container,
+.header-inner,
+.header-actions,
+.hero-grid > *,
+.overview > *,
+.contact-grid > *,
+.footer-grid > *,
+.services-grid > *,
+.portfolio-grid > * {
+  min-width: 0;
+}
+
+/* Keep quick-contact buttons fully visible, including devices with safe areas. */
+.floating {
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  width: 52px;
+  max-width: 52px;
+  padding-bottom: 0;
+  align-items: center;
+}
+
+.floating a {
+  flex: 0 0 52px;
+}
+
+/* Touch devices do not need hover tooltips; hiding them also avoids visual overflow. */
+@media (hover: none), (pointer: coarse) {
+  .floating a[data-tooltip]::after {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  /* The header is the same physical layout in SR / EN / HU on mobile. */
+  .header-inner {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .site-header .logo {
+    width: 100px;
+    height: 60px;
+  }
+
+  .header-actions {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: auto;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .header-actions > .lang-switch {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+
+  .header-actions > .lang-switch a {
+    padding: 5px 8px;
+  }
+
+  .hamburger {
+    flex: 0 0 44px;
+  }
+
+  .mobile-menu {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .hero-grid,
+  .overview,
+  .contact-grid,
+  .footer-grid,
+  .services-grid,
+  .portfolio-grid {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-eyebrow,
+  .hero-services span,
+  .btn {
+    max-width: 100%;
+  }
+
+  .floating {
+    right: calc(14px + env(safe-area-inset-right, 0px));
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    z-index: calc(var(--z-header) + 1);
+  }
+}
+
+@media (max-width: 380px) {
+  .header-inner {
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 8px;
+  }
+
+  .site-header .logo {
+    width: 90px;
+    height: 54px;
+  }
+
+  .header-actions {
+    gap: 5px;
+  }
+
+  .header-actions > .lang-switch a {
+    padding: 4px 6px;
+  }
+
+  .hamburger {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  form.contact-form,
+  .offer-callout {
+    padding-left: var(--sp-5);
+    padding-right: var(--sp-5);
+  }
+}
