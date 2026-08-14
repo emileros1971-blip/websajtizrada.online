@@ -433,6 +433,37 @@ function initCrossBrandLinks() {
     heroMeta.insertAdjacentElement('afterend', localLine);
   }
 
+  // Add one natural contextual internal link from the key Serbian pages to the local Subotica landing page.
+  if (language === 'sr' && !document.querySelector('[data-subotica-context-link]')) {
+    const pageName = path.split('/').pop() || 'index.html';
+    const localContext = {
+      'izrada-sajtova.html': {
+        prefix: 'Za firme i preduzetnike iz Subotice i okoline pogledajte detalje za ',
+        anchor: 'izradu web sajta u Subotici'
+      },
+      'cene.html': {
+        prefix: 'Ako poslujete u Subotici, pogledajte posebnu stranicu za ',
+        anchor: 'izradu sajta u Subotici'
+      },
+      'portfolio.html': {
+        prefix: 'Tražite sličan projekat za lokalni biznis? Pogledajte ',
+        anchor: 'izradu sajtova za firme iz Subotice'
+      }
+    }[pageName];
+    const intro = document.querySelector('main .hero-lead');
+    if (localContext && intro) {
+      const localParagraph = document.createElement('p');
+      localParagraph.setAttribute('data-subotica-context-link', 'true');
+      localParagraph.style.marginTop = '1rem';
+      localParagraph.append(document.createTextNode(localContext.prefix));
+      const localLink = document.createElement('a');
+      localLink.href = 'izrada-sajtova-subotica.html';
+      localLink.textContent = localContext.anchor;
+      localParagraph.append(localLink, document.createTextNode('.'));
+      intro.insertAdjacentElement('afterend', localParagraph);
+    }
+  }
+
   if (!document.querySelector('script[data-cross-brand-schema]')) {
     const schema = document.createElement('script');
     schema.type = 'application/ld+json';
