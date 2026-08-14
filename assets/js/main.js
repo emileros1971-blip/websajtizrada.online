@@ -7,6 +7,7 @@
 
 const SITE_CONFIG = {
   company: "websajtizrada.online",
+  legalName: "Silverado Video Emil Eres PR",
   // --- Contact ---
   phone: "+381 69 150 8197",
   phoneTel: "+381691508197",
@@ -14,7 +15,7 @@ const SITE_CONFIG = {
   viber: "+381691508197",
   email: "emileros1971@gmail.com",
   address: "Palić / Subotica, Srbija",
-  hours: "Pon–Pet 09:00–18:00",
+  hours: "Pon–Sub 08:00–17:00",
 
   // --- Web3Forms ---
   web3formsKey: "f691abcd-3333-49c6-8553-e1524b5e2140",
@@ -32,7 +33,11 @@ const SITE_CONFIG = {
   // Intentionally blank until the new Meta dataset/pixel is created.
   metaPixelId: "",
 
-  social: { facebook: "", instagram: "", linkedin: "" },
+  social: {
+    facebook: "https://www.facebook.com/SilveradoVideo",
+    instagram: "https://www.instagram.com/emil.eros/",
+    linkedin: ""
+  },
 };
 
 /* ---------- Helpers ---------- */
@@ -52,6 +57,20 @@ function applyConfig() {
   $$('[data-cfg-hours]').forEach(el => el.textContent = SITE_CONFIG.hours);
   $$('[data-cfg-address]').forEach(el => el.textContent = SITE_CONFIG.address);
   $$('[data-cfg-year]').forEach(el => el.textContent = new Date().getFullYear());
+  $$('[data-cfg-facebook]').forEach(el => el.setAttribute('href', SITE_CONFIG.social.facebook));
+  $$('[data-cfg-instagram]').forEach(el => el.setAttribute('href', SITE_CONFIG.social.instagram));
+
+  // Keep rendered contact metadata aligned with the Google Business Profile hours.
+  const path = window.location.pathname;
+  if (path.endsWith('/kontakt.html') || path.endsWith('kontakt.html')) {
+    const contactDescription = `Kontakt: telefon ${SITE_CONFIG.phone}, email ${SITE_CONFIG.email}. ${SITE_CONFIG.address}. Pon–Sub 08:00–17:00.`;
+    const metaDescription = document.querySelector('meta[name="description"]');
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+    if (metaDescription) metaDescription.setAttribute('content', contactDescription);
+    if (ogDescription) ogDescription.setAttribute('content', contactDescription);
+    if (twitterDescription) twitterDescription.setAttribute('content', contactDescription);
+  }
 }
 
 /* ---------- Mobile menu ---------- */
@@ -361,6 +380,33 @@ function initCrossBrandLinks() {
     footerBrand.appendChild(paragraph);
   }
 
+  if (footerBrand && !footerBrand.querySelector('[data-cross-brand-social]')) {
+    const socialParagraph = document.createElement('p');
+    socialParagraph.setAttribute('data-cross-brand-social', 'true');
+    const links = [];
+    if (SITE_CONFIG.social.facebook) {
+      const facebook = document.createElement('a');
+      facebook.href = SITE_CONFIG.social.facebook;
+      facebook.target = '_blank';
+      facebook.rel = 'noopener noreferrer';
+      facebook.textContent = 'Facebook';
+      links.push(facebook);
+    }
+    if (SITE_CONFIG.social.instagram) {
+      const instagram = document.createElement('a');
+      instagram.href = SITE_CONFIG.social.instagram;
+      instagram.target = '_blank';
+      instagram.rel = 'noopener noreferrer';
+      instagram.textContent = 'Instagram';
+      links.push(instagram);
+    }
+    links.forEach((link, index) => {
+      if (index) socialParagraph.append(document.createTextNode(' · '));
+      socialParagraph.appendChild(link);
+    });
+    if (links.length) footerBrand.appendChild(socialParagraph);
+  }
+
   const serviceLists = document.querySelectorAll('.site-footer .footer-grid ul');
   const serviceList = serviceLists.length ? serviceLists[0] : null;
   if (serviceList && !serviceList.querySelector('[data-local-seo-link]')) {
@@ -393,16 +439,49 @@ function initCrossBrandLinks() {
     schema.setAttribute('data-cross-brand-schema', 'true');
     schema.textContent = JSON.stringify({
       '@context': 'https://schema.org',
-      '@type': 'Organization',
-      '@id': 'https://websajtizrada.online/#org-relationship',
-      name: 'websajtizrada.online',
-      url: 'https://websajtizrada.online/',
-      parentOrganization: {
-        '@type': 'Organization',
-        name: 'Silverado Video Emil Eres PR',
-        url: 'https://silverado.pro/'
-      },
-      sameAs: ['https://silverado.pro/']
+      '@graph': [
+        {
+          '@type': 'Organization',
+          '@id': 'https://silverado.pro/#organization',
+          name: SITE_CONFIG.legalName,
+          url: 'https://silverado.pro/'
+        },
+        {
+          '@type': 'ProfessionalService',
+          '@id': 'https://websajtizrada.online/#business',
+          name: 'websajtizrada.online',
+          legalName: SITE_CONFIG.legalName,
+          url: 'https://websajtizrada.online/',
+          telephone: SITE_CONFIG.phoneTel,
+          email: SITE_CONFIG.email,
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Palić',
+            addressRegion: 'Vojvodina',
+            addressCountry: 'RS'
+          },
+          areaServed: [
+            { '@type': 'City', name: 'Subotica' },
+            { '@type': 'Place', name: 'Palić' },
+            { '@type': 'Place', name: 'Bačka Topola' },
+            { '@type': 'Place', name: 'Kanjiža' },
+            { '@type': 'Place', name: 'Senta' },
+            { '@type': 'Place', name: 'Ada' }
+          ],
+          openingHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            opens: '08:00',
+            closes: '17:00'
+          },
+          parentOrganization: { '@id': 'https://silverado.pro/#organization' },
+          sameAs: [
+            'https://silverado.pro/',
+            SITE_CONFIG.social.facebook,
+            SITE_CONFIG.social.instagram
+          ].filter(Boolean)
+        }
+      ]
     });
     document.head.appendChild(schema);
   }
