@@ -1,0 +1,58 @@
+name: National SEO update
+
+on:
+  push:
+    branches:
+      - seo-national-positioning-runner-2026-08-14
+    paths:
+      - .github/workflows/national-seo-update.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-national-positioning-runner-2026-08-14
+      - name: Update homepage positioning
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          old_desc = 'Izrada sajtova već od 6.000 RSD, Google Ads kampanje i Facebook i Instagram oglašavanje za mala i srednja preduzeća. Palić / Subotica, Srbija.'
+          new_desc = 'Izrada sajtova već od 6.000 RSD, Google Ads kampanje i Facebook i Instagram oglašavanje za mala i srednja preduzeća širom Srbije.'
+          if old_desc not in s:
+              raise SystemExit('Expected old homepage description not found')
+          s = s.replace(old_desc, new_desc)
+
+          nav_item = '<li><a href="izrada-sajtova-subotica.html">Izrada sajtova Subotica</a></li>'
+          if s.count(nav_item) < 2:
+              raise SystemExit(f'Expected two prominent Subotica nav links, found {s.count(nav_item)}')
+          s = s.replace(nav_item, '')
+
+          old_hero = '<p class="hero-lead">Dizajniramo i razvijamo moderne sajtove, vodimo Google Ads kampanje i Facebook i Instagram oglašavanje za firme koje žele više poziva, upita i prodaje.</p>'
+          new_hero = '<p class="hero-lead">Dizajniramo i razvijamo moderne sajtove, vodimo Google Ads kampanje i Facebook i Instagram oglašavanje za firme koje žele više poziva, upita i prodaje. Radimo sa klijentima širom Srbije, bez obzira na lokaciju.</p>'
+          if old_hero not in s:
+              raise SystemExit('Expected hero paragraph not found')
+          s = s.replace(old_hero, new_hero)
+
+          old_clients = '<p>Radimo sa lokalnim firmama iz različitih delatnosti — evo nekih od oblasti u kojima imamo realno završene projekte.</p>'
+          new_clients = '<p>Radimo sa firmama iz različitih delatnosti i gradova širom Srbije — evo nekih od oblasti u kojima imamo realno završene projekte.</p>'
+          if old_clients not in s:
+              raise SystemExit('Expected clients paragraph not found')
+          s = s.replace(old_clients, new_clients)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit homepage update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Strengthen national positioning on homepage"
+          git push origin HEAD:seo-national-positioning-runner-2026-08-14
