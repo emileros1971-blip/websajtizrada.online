@@ -275,7 +275,7 @@ function sendGoogleAdsConversion(label, params) {
 
 function loadMetaPixel() {
   if (_pxLoaded || !SITE_CONFIG.metaPixelId) return; _pxLoaded = true;
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)n=f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   window.fbq('init', SITE_CONFIG.metaPixelId);
   window.fbq('track', 'PageView');
 }
@@ -519,3 +519,118 @@ function initCrossBrandLinks() {
 }
 
 document.addEventListener('DOMContentLoaded', initCrossBrandLinks);
+
+/* GOOGLE REVIEWS SECTION 2026-08-18 */
+(() => {
+  const homepagePaths = new Set([
+    '/', '/index.html',
+    '/en/', '/en/index.html',
+    '/hu/', '/hu/index.html'
+  ]);
+  let currentPath = window.location.pathname || '/';
+  if (!currentPath.startsWith('/')) currentPath = '/' + currentPath;
+  if (!homepagePaths.has(currentPath)) return;
+  if (document.querySelector('.google-reviews-section')) return;
+
+  const langAttr = (document.documentElement.lang || '').toLowerCase();
+  const lang = langAttr.startsWith('hu') ? 'hu' : (langAttr.startsWith('en') ? 'en' : 'sr');
+
+  const copy = {
+    sr: {
+      eyebrow: 'Google recenzije',
+      title: 'Klijenti su nam dali 5★ na Google-u',
+      intro: 'Tri potvrđene Google recenzije klijenata koji su sa nama radili na svojim web projektima.',
+      badge: 'Google recenzija',
+      summary: '3 potvrđene recenzije · sve 5★',
+      reviews: [
+        { name: 'Aleksa Tesic', text: 'Gospodin sa kojim smo započeli saradnju na našem sajtu je FENOMENALAN. On…' },
+        { name: 'Nikola Lalic', text: 'Sve pohvale stručnosti i brzini! Napravili su moderan i funkcionalan…' },
+        { name: 'Naim Morina', text: 'Veoma sam zadovoljan sajtom, urađen je u rekordnom roku, veoma…' }
+      ]
+    },
+    en: {
+      eyebrow: 'Google reviews',
+      title: 'Our clients gave us 5★ on Google',
+      intro: 'Three verified Google reviews from clients who worked with us on their web projects.',
+      badge: 'Google review',
+      summary: '3 verified reviews · all 5★',
+      reviews: [
+        { name: 'Aleksa Tesic', text: 'The gentleman with whom we started working on our website is PHENOMENAL. He…' },
+        { name: 'Nikola Lalic', text: 'All praise for the expertise and speed! They created a modern and functional…' },
+        { name: 'Naim Morina', text: 'I am very satisfied with the website, it was done in record time, very…' }
+      ]
+    },
+    hu: {
+      eyebrow: 'Google értékelések',
+      title: 'Ügyfeleink 5★-ra értékeltek a Google-on',
+      intro: 'Három ellenőrzött Google-értékelés olyan ügyfelektől, akik velünk készíttették webes projektjüket.',
+      badge: 'Google értékelés',
+      summary: '3 ellenőrzött értékelés · mind 5★',
+      reviews: [
+        { name: 'Aleksa Tesic', text: 'Az úr, akivel elkezdtünk dolgozni a weboldalunkon, FENOMENÁLIS. Ő…' },
+        { name: 'Nikola Lalic', text: 'Minden elismerés a szakértelemért és a gyorsaságért! Modern és funkcionális…' },
+        { name: 'Naim Morina', text: 'Nagyon elégedett vagyok a weboldallal, rekordidő alatt készült el, nagyon…' }
+      ]
+    }
+  }[lang];
+
+  const faqList = document.querySelector('.faq-list');
+  const faqSection = faqList ? faqList.closest('section') : null;
+  if (!faqSection || !faqSection.parentNode) return;
+
+  if (!document.getElementById('google-reviews-styles')) {
+    const style = document.createElement('style');
+    style.id = 'google-reviews-styles';
+    style.textContent = `
+      .google-reviews-section{padding:clamp(4rem,8vw,7rem) 0;background:#fff}
+      .google-reviews-head{text-align:center;max-width:760px;margin:0 auto 2.2rem}
+      .google-reviews-head .section-eyebrow{display:inline-block}
+      .google-reviews-head h2{margin:.65rem 0 .8rem}
+      .google-reviews-head p{margin:0 auto;max-width:690px}
+      .google-reviews-summary{display:inline-flex;align-items:center;gap:.55rem;margin-top:1.1rem;padding:.55rem .9rem;border:1px solid rgba(15,23,42,.1);border-radius:999px;background:#f8fafc;font-weight:700;font-size:.92rem;color:#334155}
+      .google-reviews-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.15rem}
+      .google-review-card{position:relative;display:flex;flex-direction:column;min-height:245px;padding:1.55rem;border:1px solid rgba(15,23,42,.09);border-radius:20px;background:#fff;box-shadow:0 14px 40px rgba(15,23,42,.07)}
+      .google-review-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1rem}
+      .google-review-stars{font-size:1.04rem;letter-spacing:.12em;color:#f59e0b;white-space:nowrap}
+      .google-review-badge{font-size:.75rem;font-weight:700;color:#475569;background:#f1f5f9;border-radius:999px;padding:.38rem .62rem;white-space:nowrap}
+      .google-review-card blockquote{margin:0 0 1.35rem;font-size:1.04rem;line-height:1.7;color:#1e293b;font-style:normal;flex:1}
+      .google-review-author{display:flex;align-items:center;gap:.7rem;font-weight:800;color:#0f172a}
+      .google-review-avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#eef4ff;color:#0b5cff;font-weight:800}
+      @media(max-width:900px){.google-reviews-grid{grid-template-columns:1fr}.google-review-card{min-height:0}}
+    `;
+    document.head.appendChild(style);
+  }
+
+  const section = document.createElement('section');
+  section.className = 'google-reviews-section';
+  section.setAttribute('aria-labelledby', 'google-reviews-title');
+
+  const cards = copy.reviews.map((review) => {
+    const initials = review.name.split(/\s+/).map(part => part[0]).slice(0, 2).join('').toUpperCase();
+    return `
+      <article class="google-review-card reveal">
+        <div class="google-review-top">
+          <div class="google-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <span class="google-review-badge">${copy.badge}</span>
+        </div>
+        <blockquote>“${review.text}”</blockquote>
+        <div class="google-review-author">
+          <span class="google-review-avatar" aria-hidden="true">${initials}</span>
+          <span>${review.name}</span>
+        </div>
+      </article>`;
+  }).join('');
+
+  section.innerHTML = `
+    <div class="container">
+      <div class="google-reviews-head reveal">
+        <span class="section-eyebrow">${copy.eyebrow}</span>
+        <h2 id="google-reviews-title">${copy.title}</h2>
+        <p>${copy.intro}</p>
+        <div class="google-reviews-summary"><span aria-hidden="true">★★★★★</span><span>${copy.summary}</span></div>
+      </div>
+      <div class="google-reviews-grid">${cards}</div>
+    </div>`;
+
+  faqSection.parentNode.insertBefore(section, faqSection);
+})();
