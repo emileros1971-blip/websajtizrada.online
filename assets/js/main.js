@@ -674,3 +674,92 @@ document.addEventListener('DOMContentLoaded', initCrossBrandLinks);
 
   faqSection.parentNode.insertBefore(section, faqSection);
 })();
+
+/* ---------- Unified navigation (SR / EN / HU) ---------- */
+function initUnifiedNavigation() {
+  const langAttr = (document.documentElement.lang || '').toLowerCase();
+  const lang = langAttr.startsWith('hu') ? 'hu' : (langAttr.startsWith('en') ? 'en' : 'sr');
+  const current = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+  const config = {
+    sr: {
+      home: ['Početna', 'index.html'],
+      servicesLabel: 'Usluge',
+      services: [
+        ['Izrada sajtova', 'izrada-sajtova.html'],
+        ['Web shop', 'web-shop.html'],
+        ['Google Ads', 'google-ads.html'],
+        ['Facebook i Instagram oglasi', 'facebook-instagram-reklame.html'],
+        ['Video reklame', 'video-reklame.html'],
+        ['Vođenje društvenih mreža', 'vodjenje-drustvenih-mreza.html'],
+        ['TikTok oglasi', 'tiktok-oglasi.html']
+      ],
+      portfolio: ['Portfolio', 'portfolio.html'],
+      pricing: ['Cene', 'cene.html'],
+      contact: ['Kontakt', 'kontakt.html']
+    },
+    en: {
+      home: ['Home', 'index.html'],
+      servicesLabel: 'Services',
+      services: [
+        ['Web Development', 'web-development.html'],
+        ['E-commerce', 'ecommerce-websites.html'],
+        ['Google Ads', 'google-ads.html'],
+        ['Facebook & Instagram Ads', 'facebook-instagram-advertising.html'],
+        ['Video Advertising', 'video-advertising.html'],
+        ['Social Media Management', 'social-media-management.html'],
+        ['TikTok Ads', 'tiktok-ads.html']
+      ],
+      portfolio: ['Portfolio', 'portfolio.html'],
+      pricing: ['Pricing', 'pricing.html'],
+      contact: ['Contact', 'contact.html']
+    },
+    hu: {
+      home: ['Kezdőlap', 'index.html'],
+      servicesLabel: 'Szolgáltatások',
+      services: [
+        ['Weboldal-készítés', 'weboldal-keszites.html'],
+        ['Webshop', 'webshop-keszites.html'],
+        ['Google Ads', 'google-ads.html'],
+        ['Facebook és Instagram hirdetések', 'facebook-instagram-hirdetes.html'],
+        ['Videóreklámok', 'video-reklamok.html'],
+        ['Közösségi média kezelése', 'kozossegi-media-kezelese.html'],
+        ['TikTok hirdetések', 'tiktok-hirdetesek.html']
+      ],
+      portfolio: ['Portfólió', 'portfolio.html'],
+      pricing: ['Árak', 'arak.html'],
+      contact: ['Kapcsolat', 'kapcsolat.html']
+    }
+  }[lang];
+
+  const isCurrent = (href) => current === href.toLowerCase();
+  const serviceCurrent = config.services.some(([, href]) => isCurrent(href));
+
+  const makeLink = ([label, href], extraClass = '') => {
+    const currentAttr = isCurrent(href) ? ' aria-current="page"' : '';
+    const classAttr = extraClass ? ` class="${extraClass}"` : '';
+    return `<a href="${href}"${classAttr}${currentAttr}>${label}</a>`;
+  };
+
+  const services = config.services.map(item => `<li>${makeLink(item)}</li>`).join('');
+  const servicesTriggerClass = serviceCurrent ? 'nav-services-trigger is-current' : 'nav-services-trigger';
+  const navMarkup = `
+    <li>${makeLink(config.home)}</li>
+    <li class="nav-services">
+      <a href="${config.services[0][1]}" class="${servicesTriggerClass}">${config.servicesLabel}</a>
+      <ul class="services-dropdown" aria-label="${config.servicesLabel}">${services}</ul>
+    </li>
+    <li>${makeLink(config.portfolio)}</li>
+    <li>${makeLink(config.pricing)}</li>
+    <li>${makeLink(config.contact)}</li>`;
+
+  const desktop = document.querySelector('.main-nav > ul');
+  if (desktop) desktop.innerHTML = navMarkup;
+
+  const mobile = document.querySelector('#mobile-menu nav > ul');
+  if (mobile) mobile.innerHTML = navMarkup;
+}
+
+/* main.js is deferred, so the document has already been parsed here.
+   Normalise navigation before DOMContentLoaded binds the mobile menu handlers. */
+initUnifiedNavigation();
