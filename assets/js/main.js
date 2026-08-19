@@ -763,3 +763,86 @@ function initUnifiedNavigation() {
 /* main.js is deferred, so the document has already been parsed here.
    Normalise navigation before DOMContentLoaded binds the mobile menu handlers. */
 initUnifiedNavigation();
+
+/* ---------- Site-wide language selector (SR / EN / HU) ---------- */
+function initGlobalLanguageSwitch() {
+  const headerActions = document.querySelector('.site-header .header-actions');
+  if (!headerActions) return;
+
+  const langAttr = (document.documentElement.lang || '').toLowerCase();
+  const currentLang = langAttr.startsWith('hu') ? 'hu' : (langAttr.startsWith('en') ? 'en' : 'sr');
+  const currentFile = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+  const pageSets = [
+    { sr: 'index.html', en: 'index.html', hu: 'index.html', home: true },
+    { sr: 'izrada-sajtova.html', en: 'web-development.html', hu: 'weboldal-keszites.html' },
+    { sr: 'web-shop.html', en: 'ecommerce-websites.html', hu: 'webshop-keszites.html' },
+    { sr: 'google-ads.html', en: 'google-ads.html', hu: 'google-ads.html' },
+    { sr: 'facebook-instagram-reklame.html', en: 'facebook-instagram-advertising.html', hu: 'facebook-instagram-hirdetes.html' },
+    { sr: 'video-reklame.html', en: 'video-advertising.html', hu: 'video-reklamok.html' },
+    { sr: 'vodjenje-drustvenih-mreza.html', en: 'social-media-management.html', hu: 'kozossegi-media-kezelese.html' },
+    { sr: 'tiktok-oglasi.html', en: 'tiktok-ads.html', hu: 'tiktok-hirdetesek.html' },
+    { sr: 'portfolio.html', en: 'portfolio.html', hu: 'portfolio.html' },
+    { sr: 'cene.html', en: 'pricing.html', hu: 'arak.html' },
+    { sr: 'kontakt.html', en: 'contact.html', hu: 'kapcsolat.html' },
+    { sr: 'o-nama.html', en: 'about.html', hu: 'rolunk.html' },
+    { sr: 'politika-privatnosti.html', en: 'privacy-policy.html', hu: 'adatvedelmi-iranyelvek.html' },
+    { sr: 'politika-kolacica.html', en: 'cookie-policy.html', hu: 'cookie-szabalyzat.html' },
+    { sr: 'uslovi-koriscenja.html', en: 'terms.html', hu: 'felhasznalasi-feltetelek.html' }
+  ];
+
+  const alternates = {};
+  document.querySelectorAll('link[rel="alternate"][hreflang][href]').forEach(link => {
+    const code = (link.getAttribute('hreflang') || '').toLowerCase();
+    if (code.startsWith('sr')) alternates.sr = link.href;
+    else if (code.startsWith('en')) alternates.en = link.href;
+    else if (code.startsWith('hu')) alternates.hu = link.href;
+  });
+
+  const matchedSet = pageSets.find(set => set[currentLang]?.toLowerCase() === currentFile);
+  const targetHref = (targetLang) => {
+    if (alternates[targetLang]) return alternates[targetLang];
+    if (matchedSet) {
+      if (matchedSet.home) return targetLang === 'sr' ? '/' : `/${targetLang}/`;
+      const file = matchedSet[targetLang];
+      if (file) return targetLang === 'sr' ? `/${file}` : `/${targetLang}/${file}`;
+    }
+    if (targetLang === currentLang) return window.location.pathname + window.location.search + window.location.hash;
+    return targetLang === 'sr' ? '/' : `/${targetLang}/`;
+  };
+
+  let switcher = headerActions.querySelector('.lang-switch');
+  if (!switcher) {
+    switcher = document.createElement('div');
+    switcher.className = 'lang-switch';
+  }
+  switcher.setAttribute('aria-label', currentLang === 'sr' ? 'Izbor jezika' : (currentLang === 'hu' ? 'Nyelvválasztó' : 'Language selector'));
+
+  const labels = { sr: 'SR', en: 'EN', hu: 'HU' };
+  switcher.innerHTML = ['sr', 'en', 'hu'].map(code => {
+    const currentAttr = code === currentLang ? ' aria-current="true"' : '';
+    return `<a href="${targetHref(code)}" hreflang="${code}" lang="${code}"${currentAttr}>${labels[code]}</a>`;
+  }).join('');
+
+  const cta = headerActions.querySelector('.header-cta, .btn.btn-primary');
+  if (!switcher.parentNode) {
+    if (cta) headerActions.insertBefore(switcher, cta);
+    else headerActions.prepend(switcher);
+  } else if (cta && switcher.nextElementSibling !== cta) {
+    headerActions.insertBefore(switcher, cta);
+  }
+
+  const currentLink = switcher.querySelector('a[aria-current="true"]');
+  currentLink?.addEventListener('click', (event) => {
+    if (window.matchMedia('(max-width: 899px)').matches) {
+      event.preventDefault();
+      switcher.classList.toggle('is-open');
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!switcher.contains(event.target)) switcher.classList.remove('is-open');
+  });
+}
+
+initGlobalLanguageSwitch();
