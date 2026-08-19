@@ -66,18 +66,23 @@
     position: absolute;
     top: 100%;
     left: -.5rem;
-    width: 19rem;
+    width: min(900px, calc(100vw - 32px));
     height: .85rem;
   }
 
-  .services-dropdown {
+  /* Desktop services menu: one clean horizontal card across all seven services. */
+  .main-nav .services-dropdown {
     position: absolute;
     z-index: 40;
     top: calc(100% + .65rem);
     left: 0;
-    width: 18.5rem;
+    display: grid;
+    grid-template-columns: 1.05fr .78fr .78fr 1.38fr .92fr 1.38fr .78fr;
+    align-items: stretch;
+    gap: 0;
+    width: min(900px, calc(100vw - 32px));
     margin: 0;
-    padding: .4rem;
+    padding: .35rem;
     list-style: none;
     background: var(--c-surface);
     border: 1px solid var(--c-border);
@@ -98,27 +103,31 @@
     transform: translateY(0);
   }
 
-  .services-dropdown li {
+  .main-nav .services-dropdown li {
+    min-width: 0;
     margin: 0;
     padding: 0;
   }
 
-  .services-dropdown a {
+  .main-nav .services-dropdown a {
     display: flex;
     align-items: center;
     width: 100%;
-    min-height: 42px;
-    padding: .66rem .78rem;
+    min-width: 0;
+    min-height: 70px;
+    padding: .72rem .68rem;
     border-radius: 7px;
     color: var(--c-text);
     font-size: var(--fs-sm);
-    line-height: 1.25;
+    line-height: 1.28;
     white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
-  .services-dropdown a:hover,
-  .services-dropdown a:focus-visible,
-  .services-dropdown a[aria-current="page"] {
+  .main-nav .services-dropdown a:hover,
+  .main-nav .services-dropdown a:focus-visible,
+  .main-nav .services-dropdown a[aria-current="page"] {
     background: var(--c-primary-soft);
     color: var(--c-primary);
   }
@@ -236,6 +245,11 @@
     padding-right: .48rem;
     font-size: var(--fs-xs);
   }
+
+  .main-nav .services-dropdown {
+    width: calc(100vw - 24px);
+    max-width: 900px;
+  }
 }
 
 @media (max-width: 899px) {
@@ -258,13 +272,9 @@
 
   .mobile-menu .services-dropdown a {
     display: block;
-    padding: .55rem .7rem;
-    border-radius: 7px;
-    font-size: .95rem;
-  }
-
-  .mobile-menu .services-dropdown a[aria-current="page"] {
-    background: var(--c-primary-soft);
-    color: var(--c-primary);
+    padding: .7rem .8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-bottom: 0;
   }
 }
