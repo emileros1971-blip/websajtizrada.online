@@ -222,3 +222,29 @@ main,
     padding-right: var(--sp-5);
   }
 }
+
+/* Real client artwork for the social-media-management examples.
+   The inline page styles provide the card shape; this shared rule replaces
+   the temporary SVG symbols across Serbian, English and Hungarian. */
+.managed-sample-avatar {
+  overflow: hidden;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.managed-sample-avatar svg {
+  display: none !important;
+}
+
+.managed-sample-card:nth-child(1) .managed-sample-avatar {
+  background-image: url("../img/social/pub-old-palic.jpg?v=20260819-1") !important;
+}
+
+.managed-sample-card:nth-child(2) .managed-sample-avatar {
+  background-image: url("../img/social/klas-024.jpg?v=20260819-1") !important;
+}
+
+.managed-sample-card:nth-child(3) .managed-sample-avatar {
+  background-image: url("../img/social/prikolice-co-srb.jpg?v=20260819-1") !important;
+}
