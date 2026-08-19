@@ -65,22 +65,22 @@
     content: "";
     position: absolute;
     top: 100%;
-    left: -6rem;
-    width: min(900px, calc(100vw - 32px));
-    height: .85rem;
+    left: 0;
+    width: 100%;
+    height: 1rem;
   }
 
-  /* Desktop services menu: one clean horizontal card across all seven services. */
+  /* Desktop services menu: viewport-centred so it can never run off-screen. */
   .main-nav .services-dropdown {
-    position: absolute;
+    position: fixed;
     z-index: 40;
-    top: calc(100% + .65rem);
-    left: -6rem;
+    top: 78px;
+    left: 50%;
     display: grid;
     grid-template-columns: 1.05fr .78fr .78fr 1.38fr .92fr 1.38fr .78fr;
     align-items: stretch;
     gap: 0;
-    width: min(900px, calc(100vw - 32px));
+    width: min(900px, calc(100vw - 24px));
     margin: 0;
     padding: .35rem;
     list-style: none;
@@ -91,7 +91,7 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-7px);
+    transform: translate(-50%, -7px);
     transition: opacity var(--dur), visibility var(--dur), transform var(--dur) var(--ease);
   }
 
@@ -100,7 +100,7 @@
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 
   .main-nav .services-dropdown li {
@@ -247,9 +247,9 @@
   }
 
   .main-nav .services-dropdown {
-    width: calc(100vw - 32px);
+    top: 72px;
+    width: calc(100vw - 24px);
     max-width: 900px;
-    left: -6rem;
   }
 }
 
