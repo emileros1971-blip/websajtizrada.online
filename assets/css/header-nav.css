@@ -1,5 +1,5 @@
-/* Compact desktop navigation for Serbian, English and Hungarian.
-   Keeps the existing visual identity and leaves the mobile menu unchanged. */
+/* Unified desktop and mobile navigation for Serbian, English and Hungarian.
+   The menu markup is normalised centrally by assets/js/main.js. */
 
 @media (min-width: 900px) {
   .header-inner {
@@ -11,7 +11,8 @@
   }
 
   .main-nav > ul {
-    position: relative;
+    display: flex;
+    align-items: center;
     gap: .25rem;
     overflow: visible;
   }
@@ -25,139 +26,104 @@
     display: inline-flex;
     align-items: center;
     min-height: 42px;
-    padding: .55rem .62rem;
+    padding: .55rem .68rem;
     white-space: nowrap;
     border-radius: 7px;
+    color: var(--c-text);
     transition: color var(--dur), background var(--dur), transform var(--dur), opacity var(--dur);
   }
 
   .main-nav > ul > li > a:hover,
-  .main-nav > ul > li > a:focus-visible {
+  .main-nav > ul > li > a:focus-visible,
+  .main-nav > ul > li > a[aria-current="page"],
+  .main-nav > ul > li > a.is-current {
     background: var(--c-primary-soft);
+    color: var(--c-primary);
   }
 
-  /* The first service link becomes the visible services trigger. */
-  .main-nav > ul > li:nth-child(2) > a {
-    font-size: 0;
-    gap: .38rem;
+  .nav-services > .nav-services-trigger {
+    gap: .42rem;
   }
 
-  html[lang^="sr"] .main-nav > ul > li:nth-child(2) > a::before {
-    content: "Usluge";
-  }
-
-  html[lang^="en"] .main-nav > ul > li:nth-child(2) > a::before {
-    content: "Services";
-  }
-
-  html[lang^="hu"] .main-nav > ul > li:nth-child(2) > a::before {
-    content: "Szolgáltatások";
-  }
-
-  .main-nav > ul > li:nth-child(2) > a::before {
-    font-size: var(--fs-sm);
-    color: var(--c-text);
-  }
-
-  .main-nav > ul > li:nth-child(2) > a::after {
+  .nav-services > .nav-services-trigger::after {
     content: "";
-    width: .44rem;
-    height: .44rem;
-    border-right: 1.8px solid currentColor;
-    border-bottom: 1.8px solid currentColor;
+    width: .42rem;
+    height: .42rem;
+    border-right: 1.7px solid currentColor;
+    border-bottom: 1.7px solid currentColor;
     transform: rotate(45deg) translateY(-2px);
     color: var(--c-text-muted);
     transition: transform var(--dur) var(--ease);
   }
 
-  html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):hover) > li:nth-child(2) > a::after,
-  html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):focus-within) > li:nth-child(2) > a::after,
-  html[lang^="en"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):hover) > li:nth-child(2) > a::after,
-  html[lang^="en"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):focus-within) > li:nth-child(2) > a::after,
-  html[lang^="hu"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):hover) > li:nth-child(2) > a::after,
-  html[lang^="hu"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):focus-within) > li:nth-child(2) > a::after {
+  .nav-services:hover > .nav-services-trigger::after,
+  .nav-services:focus-within > .nav-services-trigger::after {
     transform: rotate(225deg) translate(-1px, -1px);
   }
 
-  /* Invisible bridge prevents the dropdown closing while the pointer moves down. */
-  .main-nav > ul > li:nth-child(2)::after {
+  .nav-services::after {
     content: "";
     position: absolute;
     top: 100%;
     left: -.5rem;
-    width: 18rem;
-    height: 1rem;
+    width: 19rem;
+    height: .85rem;
   }
 
-  /* Service links form the dropdown. Serbian has one extra local SEO page. */
-  html[lang^="sr"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+6),
-  html[lang^="en"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5),
-  html[lang^="hu"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) {
+  .services-dropdown {
     position: absolute;
-    z-index: 30;
+    z-index: 40;
+    top: calc(100% + .65rem);
+    left: 0;
+    width: 18.5rem;
+    margin: 0;
+    padding: .4rem;
+    list-style: none;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    box-shadow: 0 16px 38px rgba(15, 20, 30, .12);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-6px);
+    transform: translateY(-7px);
     transition: opacity var(--dur), visibility var(--dur), transform var(--dur) var(--ease);
   }
 
-  html[lang^="sr"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+6) { left: 4.7rem; }
-  html[lang^="en"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) { left: 3.45rem; }
-  html[lang^="hu"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) { left: 4.55rem; }
-
-  .main-nav > ul > li:nth-child(3) { top: calc(100% + .75rem); }
-  .main-nav > ul > li:nth-child(4) { top: calc(100% + 3.43rem); }
-  .main-nav > ul > li:nth-child(5) { top: calc(100% + 6.11rem); }
-  html[lang^="sr"] .main-nav > ul > li:nth-child(6) { top: calc(100% + 8.79rem); }
-
-  html[lang^="sr"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+6) > a,
-  html[lang^="en"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) > a,
-  html[lang^="hu"] .main-nav > ul > li:nth-child(n+3):nth-child(-n+5) > a {
-    width: 17.5rem;
-    min-height: 44px;
-    padding: .7rem .9rem;
-    background: var(--c-surface);
-    border: 1px solid var(--c-border);
-    border-radius: 0;
-    box-shadow: 0 10px 28px rgba(15, 20, 30, .08);
-    font-size: var(--fs-sm);
-    color: var(--c-text);
-  }
-
-  .main-nav > ul > li:nth-child(3) > a {
-    border-radius: var(--radius) var(--radius) 0 0;
-  }
-
-  html[lang^="sr"] .main-nav > ul > li:nth-child(4) > a,
-  html[lang^="sr"] .main-nav > ul > li:nth-child(5) > a,
-  html[lang^="sr"] .main-nav > ul > li:nth-child(6) > a,
-  html[lang^="en"] .main-nav > ul > li:nth-child(4) > a,
-  html[lang^="en"] .main-nav > ul > li:nth-child(5) > a,
-  html[lang^="hu"] .main-nav > ul > li:nth-child(4) > a,
-  html[lang^="hu"] .main-nav > ul > li:nth-child(5) > a {
-    border-top: 0;
-  }
-
-  html[lang^="sr"] .main-nav > ul > li:nth-child(6) > a,
-  html[lang^="en"] .main-nav > ul > li:nth-child(5) > a,
-  html[lang^="hu"] .main-nav > ul > li:nth-child(5) > a {
-    border-radius: 0 0 var(--radius) var(--radius);
-  }
-
-  html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):hover) > li:nth-child(n+3):nth-child(-n+6),
-  html[lang^="sr"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+6):focus-within) > li:nth-child(n+3):nth-child(-n+6),
-  html[lang^="en"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):hover) > li:nth-child(n+3):nth-child(-n+5),
-  html[lang^="en"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):focus-within) > li:nth-child(n+3):nth-child(-n+5),
-  html[lang^="hu"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):hover) > li:nth-child(n+3):nth-child(-n+5),
-  html[lang^="hu"] .main-nav > ul:has(> li:nth-child(n+2):nth-child(-n+5):focus-within) > li:nth-child(n+3):nth-child(-n+5) {
+  .nav-services:hover > .services-dropdown,
+  .nav-services:focus-within > .services-dropdown {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
   }
 
-  /* Keep only one clear contact CTA in the desktop header. */
+  .services-dropdown li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .services-dropdown a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 42px;
+    padding: .66rem .78rem;
+    border-radius: 7px;
+    color: var(--c-text);
+    font-size: var(--fs-sm);
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  .services-dropdown a:hover,
+  .services-dropdown a:focus-visible,
+  .services-dropdown a[aria-current="page"] {
+    background: var(--c-primary-soft);
+    color: var(--c-primary);
+  }
+
+  /* Keep one clear contact CTA in the desktop header. */
   .header-phone {
     display: none;
   }
@@ -172,7 +138,7 @@
     white-space: nowrap;
   }
 
-  /* Compact current-language selector with the other languages below it. */
+  /* Compact language selector. */
   .header-actions > .lang-switch {
     position: relative;
     display: block;
@@ -182,8 +148,6 @@
     overflow: visible;
   }
 
-  /* Keep the selector open while the pointer moves from the current language
-     to either dropdown option, including the small spaces between items. */
   .header-actions > .lang-switch::before {
     content: "";
     position: absolute;
@@ -191,7 +155,7 @@
     left: 0;
     width: 100%;
     height: 78px;
-    z-index: 34;
+    z-index: 44;
     pointer-events: none;
   }
 
@@ -222,7 +186,7 @@
   .header-actions > .lang-switch > a:not([aria-current="true"]) {
     position: absolute;
     left: 0;
-    z-index: 35;
+    z-index: 45;
     min-height: 34px;
     background: var(--c-surface);
     border: 1px solid var(--c-border);
@@ -268,12 +232,39 @@
   }
 
   .main-nav > ul > li > a {
-    padding-left: .46rem;
-    padding-right: .46rem;
+    padding-left: .48rem;
+    padding-right: .48rem;
     font-size: var(--fs-xs);
   }
+}
 
-  .main-nav > ul > li:nth-child(2) > a::before {
-    font-size: var(--fs-xs);
+@media (max-width: 899px) {
+  .mobile-menu .nav-services > .nav-services-trigger {
+    font-weight: 800;
+  }
+
+  .mobile-menu .services-dropdown {
+    display: grid;
+    gap: .1rem;
+    margin: .25rem 0 .7rem;
+    padding: .25rem 0 .25rem .9rem;
+    list-style: none;
+    border-left: 2px solid var(--c-primary-soft);
+  }
+
+  .mobile-menu .services-dropdown li {
+    margin: 0;
+  }
+
+  .mobile-menu .services-dropdown a {
+    display: block;
+    padding: .55rem .7rem;
+    border-radius: 7px;
+    font-size: .95rem;
+  }
+
+  .mobile-menu .services-dropdown a[aria-current="page"] {
+    background: var(--c-primary-soft);
+    color: var(--c-primary);
   }
 }
