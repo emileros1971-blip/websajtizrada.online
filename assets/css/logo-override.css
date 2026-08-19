@@ -15,6 +15,11 @@
   height: 67px;
   flex: 0 0 auto;
   background: url("../../e2092230-0875-4b43-b850-ea7344fad76f.png") left center / contain no-repeat;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .site-header .logo > *,
