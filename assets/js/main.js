@@ -25,10 +25,10 @@ const SITE_CONFIG = {
   // Add the Google Ads destination ID (AW-XXXXXXXXX) and labels below when created.
   googleAdsId: "AW-18320037201",
   googleAdsConversions: {
-    formSubmit: "",
-    phoneClick: "",
-    whatsappClick: "",
-    viberClick: "",
+    formSubmit: "XzKdCIa8hfUcENGq1p9E",
+    phoneClick: "3A39CIm8hfUcENGq1p9E",
+    whatsappClick: "QXueCKDBhfUcENGq1p9E",
+    viberClick: "Z9SyCKPBhfUcENGq1p9E",
   },
   // Intentionally blank until the new Meta dataset/pixel is created.
   metaPixelId: "",
