@@ -23,7 +23,7 @@ const SITE_CONFIG = {
   // --- Tracking (loaded only after consent) ---
   gaId: "G-XZM28DBJ6B",
   // Add the Google Ads destination ID (AW-XXXXXXXXX) and labels below when created.
-  googleAdsId: "",
+  googleAdsId: "AW-18320037201",
   googleAdsConversions: {
     formSubmit: "",
     phoneClick: "",
