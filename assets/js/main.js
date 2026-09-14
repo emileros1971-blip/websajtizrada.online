@@ -33,11 +33,6 @@ const SITE_CONFIG = {
   // Intentionally blank until the new Meta dataset/pixel is created.
   metaPixelId: "",
 
-  social: {
-    facebook: "https://www.facebook.com/SilveradoVideo",
-    instagram: "https://www.instagram.com/emil.eros/",
-    linkedin: ""
-  },
 };
 
 /* ---------- Helpers ---------- */
@@ -57,9 +52,6 @@ function applyConfig() {
   $$('[data-cfg-hours]').forEach(el => el.textContent = SITE_CONFIG.hours);
   $$('[data-cfg-address]').forEach(el => el.textContent = SITE_CONFIG.address);
   $$('[data-cfg-year]').forEach(el => el.textContent = new Date().getFullYear());
-  $$('[data-cfg-facebook]').forEach(el => el.setAttribute('href', SITE_CONFIG.social.facebook));
-  $$('[data-cfg-instagram]').forEach(el => el.setAttribute('href', SITE_CONFIG.social.instagram));
-
   // Keep rendered contact metadata aligned with the Google Business Profile hours.
   const path = window.location.pathname;
   if (path.endsWith('/kontakt.html') || path.endsWith('kontakt.html')) {
@@ -420,33 +412,6 @@ function initCrossBrandLinks() {
     footerBrand.appendChild(paragraph);
   }
 
-  if (footerBrand && !footerBrand.querySelector('[data-cross-brand-social]')) {
-    const socialParagraph = document.createElement('p');
-    socialParagraph.setAttribute('data-cross-brand-social', 'true');
-    const links = [];
-    if (SITE_CONFIG.social.facebook) {
-      const facebook = document.createElement('a');
-      facebook.href = SITE_CONFIG.social.facebook;
-      facebook.target = '_blank';
-      facebook.rel = 'noopener noreferrer';
-      facebook.textContent = 'Facebook';
-      links.push(facebook);
-    }
-    if (SITE_CONFIG.social.instagram) {
-      const instagram = document.createElement('a');
-      instagram.href = SITE_CONFIG.social.instagram;
-      instagram.target = '_blank';
-      instagram.rel = 'noopener noreferrer';
-      instagram.textContent = 'Instagram';
-      links.push(instagram);
-    }
-    links.forEach((link, index) => {
-      if (index) socialParagraph.append(document.createTextNode(' · '));
-      socialParagraph.appendChild(link);
-    });
-    if (links.length) footerBrand.appendChild(socialParagraph);
-  }
-
   const serviceLists = document.querySelectorAll('.site-footer .footer-grid ul');
   const serviceList = serviceLists.length ? serviceLists[0] : null;
   if (serviceList && !serviceList.querySelector('[data-local-seo-link]')) {
@@ -546,11 +511,7 @@ function initCrossBrandLinks() {
             closes: '17:00'
           },
           parentOrganization: { '@id': 'https://silverado.pro/#organization' },
-          sameAs: [
-            'https://silverado.pro/',
-            SITE_CONFIG.social.facebook,
-            SITE_CONFIG.social.instagram
-          ].filter(Boolean)
+          sameAs: ['https://silverado.pro/']
         }
       ]
     });
