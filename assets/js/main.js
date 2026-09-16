@@ -20,7 +20,7 @@ const SITE_CONFIG = {
   // --- Web3Forms ---
   web3formsKey: "f691abcd-3333-49c6-8553-e1524b5e2140",
 
-  // --- Tracking (loaded only after consent) ---
+  // --- Tracking with Google Consent Mode v2 ---
   gaId: "G-XZM28DBJ6B",
   // Add the Google Ads destination ID (AW-XXXXXXXXX) and labels below when created.
   googleAdsId: "AW-18320037201",
@@ -175,6 +175,15 @@ function saveConsent(c) {
   applyConsent(c);
 }
 function applyConsent(c) {
+  ensureGoogleTag(SITE_CONFIG.googleAdsId || SITE_CONFIG.gaId);
+  if (window.gtag) {
+    window.gtag('consent', 'update', {
+      analytics_storage: c.analytics ? 'granted' : 'denied',
+      ad_storage: c.marketing ? 'granted' : 'denied',
+      ad_user_data: c.marketing ? 'granted' : 'denied',
+      ad_personalization: c.marketing ? 'granted' : 'denied'
+    });
+  }
   if (c.analytics) loadGA();
   if (c.marketing) {
     loadGoogleAds();
@@ -216,6 +225,7 @@ function initCookieBanner() {
 /* ---------- Analytics loaders (per consent category) ---------- */
 let _googleTagScriptLoaded = false;
 let _googleJsInitialized = false;
+let _googleConsentDefaulted = false;
 let _gaLoaded = false;
 let _adsLoaded = false;
 let _pxLoaded = false;
@@ -224,6 +234,19 @@ function ensureGoogleTag(primaryId) {
   if (!primaryId) return false;
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+
+  if (!_googleConsentDefaulted) {
+    window.gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+    window.gtag('set', 'ads_data_redaction', true);
+    window.gtag('set', 'url_passthrough', true);
+    _googleConsentDefaulted = true;
+  }
 
   if (!_googleTagScriptLoaded) {
     const s = document.createElement('script');
@@ -254,9 +277,14 @@ function loadGoogleAds() {
   window.gtag('config', SITE_CONFIG.googleAdsId);
 }
 
+function initGoogleMeasurement() {
+  ensureGoogleTag(SITE_CONFIG.googleAdsId || SITE_CONFIG.gaId);
+  loadGA();
+  loadGoogleAds();
+}
+
 function sendGoogleAdsConversion(label, params) {
-  const consent = getConsent();
-  if (!consent?.marketing || !SITE_CONFIG.googleAdsId || !label) return;
+  if (!SITE_CONFIG.googleAdsId || !label) return;
   loadGoogleAds();
   if (!window.gtag) return;
   window.gtag('event', 'conversion', {
@@ -368,6 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
   applyConfig();
   initMobileMenu();
   initContactForm();
+  initGoogleMeasurement();
   initCookieBanner();
   initClickTracking();
   initSmoothAnchors();
