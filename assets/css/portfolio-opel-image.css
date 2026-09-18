@@ -39,3 +39,19 @@ a[href*="thesqueakycleanbros.online"] .portfolio-img img {
   object-position: center center !important;
   background: #ffffff;
 }
+
+/* The Auto Kosmos source is a wide logo composition; show it in full. */
+a[href*="autokosmos.online"] .portfolio-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+a[href*="autokosmos.online"] .portfolio-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #ffffff;
+}
