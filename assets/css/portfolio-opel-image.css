@@ -55,3 +55,21 @@ a[href*="autokosmos.online"] .portfolio-img img {
   object-position: center center !important;
   background: #ffffff;
 }
+
+/* Preserve the complete website screenshots for the newest portfolio cards. */
+a[href*="ribarnicaborca.online"] .portfolio-img,
+a[href*="etaluxemburg"] .portfolio-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+a[href*="ribarnicaborca.online"] .portfolio-img img,
+a[href*="etaluxemburg"] .portfolio-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #ffffff;
+}
