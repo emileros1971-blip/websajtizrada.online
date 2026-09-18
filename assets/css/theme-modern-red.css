@@ -192,6 +192,14 @@ body {
 .hero-logo-visual .hero-logo-image {
   border-radius: 14px;
   box-shadow: 0 18px 36px rgba(0, 0, 0, .30);
+  opacity: 0;
+}
+
+.hero-logo-visual {
+  background:
+    url("../../cb7d238e-e234-4ddc-bc8c-7518169182a2.png") center / 76% auto no-repeat,
+    radial-gradient(circle at 52% 40%, rgba(72, 112, 85, .28), transparent 60%),
+    linear-gradient(145deg, #14251b, #060d0a);
 }
 
 section:not(.hero):not(.final-cta) {
