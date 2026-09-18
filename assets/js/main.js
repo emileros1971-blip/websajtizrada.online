@@ -151,7 +151,7 @@ function initContactForm() {
         status.className = 'form-status success';
         status.textContent = 'Hvala. Vaša poruka je poslata. Javićemo vam se ubrzo.';
         form.reset();
-        trackEvent('form_submit', { form: 'contact' });
+        trackEvent('website_form_lead', { form_name: 'contact', lead_method: 'web3forms' });
       } else {
         throw new Error(data.message || 'Greška pri slanju.');
       }
@@ -289,6 +289,7 @@ function sendGoogleAdsConversion(label, params) {
   if (!window.gtag) return;
   window.gtag('event', 'conversion', {
     send_to: SITE_CONFIG.googleAdsId + '/' + label,
+    transport_type: 'beacon',
     ...(params || {}),
   });
 }
@@ -321,10 +322,10 @@ function trackEvent(name, params) {
   if (window.fbq) window.fbq('trackCustom', name, eventParams);
 
   const labels = SITE_CONFIG.googleAdsConversions || {};
-  if (name === 'form_submit') sendGoogleAdsConversion(labels.formSubmit, eventParams);
+  if (name === 'website_form_lead') sendGoogleAdsConversion(labels.formSubmit, eventParams);
   else if (name === 'click_phone') sendGoogleAdsConversion(labels.phoneClick, eventParams);
-  else if (name === 'click_whatsapp') sendGoogleAdsConversion(labels.whatsappClick, eventParams);
-  else if (name === 'click_viber') sendGoogleAdsConversion(labels.viberClick, eventParams);
+  else if (name === 'whatsapp_lead_click') sendGoogleAdsConversion(labels.whatsappClick, eventParams);
+  else if (name === 'viber_lead_click') sendGoogleAdsConversion(labels.viberClick, eventParams);
 }
 function initClickTracking() {
   document.addEventListener('click', (e) => {
@@ -332,8 +333,8 @@ function initClickTracking() {
     if (!a) return;
     const href = a.getAttribute('href') || '';
     if (href.startsWith('tel:')) trackEvent('click_phone', { location: a.dataset.loc || 'unknown' });
-    else if (href.includes('wa.me')) trackEvent('click_whatsapp', {});
-    else if (href.startsWith('viber:')) trackEvent('click_viber', {});
+    else if (href.includes('wa.me')) trackEvent('whatsapp_lead_click', { location: a.dataset.loc || 'unknown' });
+    else if (href.startsWith('viber:')) trackEvent('viber_lead_click', { location: a.dataset.loc || 'unknown' });
   });
 }
 
